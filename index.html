@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="College Attendance Manager - Track your classes, maintain attendance, and get AI-powered predictions">
+    <meta name="keywords" content="attendance, college, student, management, tracking">
+    <title>College Attendance Manager | Track Classes & Attendance</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+</head>
+<body>
+    <!-- PIN Protection Screen -->
+    <div id="pinProtectionScreen" class="pin-protection-overlay">
+        <div class="pin-protection-modal">
+            <div class="pin-header">
+                <h2>🔐 Attendance Manager</h2>
+                <p>Enter 4-Digit PIN to Access</p>
+            </div>
+            <div class="pin-input-container">
+                <div class="pin-display" id="pinDisplay">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="pin-buttons">
+                    <button class="pin-btn" data-pin="1">1</button>
+                    <button class="pin-btn" data-pin="2">2</button>
+                    <button class="pin-btn" data-pin="3">3</button>
+                    <button class="pin-btn" data-pin="4">4</button>
+                    <button class="pin-btn" data-pin="5">5</button>
+                    <button class="pin-btn" data-pin="6">6</button>
+                    <button class="pin-btn" data-pin="7">7</button>
+                    <button class="pin-btn" data-pin="8">8</button>
+                    <button class="pin-btn" data-pin="9">9</button>
+                    <button class="pin-btn pin-btn-empty"></button>
+                    <button class="pin-btn" data-pin="0">0</button>
+                    <button class="pin-btn pin-btn-delete" id="pinDelete">⌫ Delete</button>
+                </div>
+                <div id="pinError" class="pin-error" style="display: none; color: #e74c3c; margin-top: 1rem; text-align: center;">Invalid PIN</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header style="display: none;" id="mainHeader">
+        <h1>College Attendance Manager</h1>
+        <nav>
+            <a href="#" data-nav="dashboard" class="active">📊 Dashboard</a>
+            <a href="#" data-nav="timetable">📅 Timetable</a>
+            <a href="#" data-nav="calendar">🗓️ Calendar</a>
+            <a href="#" data-nav="analytics">📈 Analytics</a>
+            <a href="#" data-nav="predictions">🤖 AI Predictions</a>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container" id="mainContainer" style="display: none;">
+        <!-- Dashboard View -->
+        <section data-view="dashboard" style="display: block;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                <h2>📚 Dashboard</h2>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" id="addSubjectBtn">+ Add Subject</button>
+                    <button class="btn btn-secondary" id="settingsBtn">⚙️ Settings</button>
+                    <button class="btn btn-secondary" id="exportDataBtn">📥 Export Data</button>
+                    <button class="btn btn-secondary" id="importDataBtn">📤 Import Data</button>
+                </div>
+            </div>
+            <div id="dashboardContent">
+                <!-- Dashboard content will be rendered here -->
+            </div>
+        </section>
+
+        <!-- Timetable View -->
+        <section data-view="timetable" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                <h2>📅 Weekly Timetable</h2>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" id="addTimetableBtn">+ Add Class</button>
+                    <button class="btn btn-danger" id="importTimetableBtn">🔄 Load E3 Schedule (Clear Old)</button>
+                </div>
+            </div>
+            <div id="timetableContent">
+                <!-- Timetable content will be rendered here -->
+            </div>
+        </section>
+
+        <!-- Calendar View -->
+        <section data-view="calendar" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h2>🗓️ Monthly Calendar</h2>
+                    <p style="color: #7f8c8d; margin-top: 0.5rem;">Click on class indicators to mark attendance (✔ Attended, ✖ Missed, • Not marked)</p>
+                </div>
+                <button id="resetCalendarBtn" class="btn btn-danger" style="height: fit-content;">🔄 Reset All Entries</button>
+            </div>
+            <div id="calendarContent">
+                <!-- Calendar content will be rendered here -->
+            </div>
+        </section>
+
+        <!-- Analytics View -->
+        <section data-view="analytics" style="display: none;">
+            <div style="margin-bottom: 2rem;">
+                <h2>📈 Monthly Analytics</h2>
+                <p style="color: #7f8c8d; margin-top: 0.5rem;">View your attendance statistics for each month</p>
+            </div>
+            <div id="analyticsContent">
+                <!-- Analytics content will be rendered here -->
+            </div>
+        </section>
+
+        <!-- Predictions View -->
+        <section data-view="predictions" style="display: none;">
+            <div style="margin-bottom: 2rem;">
+                <h2>🤖 AI Attendance Predictions</h2>
+                <p style="color: #7f8c8d; margin-top: 0.5rem;">Get AI-powered insights on how many classes you can safely skip while maintaining your minimum attendance percentage</p>
+            </div>
+            <div id="predictionsContent">
+                <!-- Predictions content will be rendered here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/ui.js"></script>
+    <script>
+        // Initialize app on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // PIN protection is handled by ui.js during initialization
+        });
+
+        // Handle window resize for responsive design
+        window.addEventListener('resize', () => {
+            // Can add responsive behavior here if needed
+        });
+
+        // Prevent accidental data loss
+        window.addEventListener('beforeunload', (e) => {
+            // Optional: warn if unsaved changes
+        });
+    </script>
+</body>
+</html>
